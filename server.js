@@ -8,12 +8,8 @@ function start(route, handle) {
 		var pathname = url.parse(req.url).pathname;
 		console.log("Request for " + pathname + " received.");
 
-		route(handle, pathname);
-
-		res.writeHead(200, {"Content=Type" : "text/plain"});
-		var content = route(handle, pathname);
-		res.write(content);
-		res.end();
+		route(handle, pathname, res);
+		//응답 메시지res를 route에 넣어준다.
 	}
 
 	http.createServer(onRequest).listen(8888);
