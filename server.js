@@ -11,7 +11,8 @@ function start(route, handle) {
 		route(handle, pathname);
 
 		res.writeHead(200, {"Content=Type" : "text/plain"});
-		res.write("Hello World!");
+		var content = route(handle, pathname);
+		res.write(content);
 		res.end();
 	}
 
