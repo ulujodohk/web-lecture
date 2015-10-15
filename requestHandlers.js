@@ -1,24 +1,31 @@
-var exec = require("child_process").exec;
+var querystring = require("querystring");
 
-function start(res) {
+function start(res, postData) {
 	console.log("Request handler 'start' was called");
-	var content = "empty";
+	var body = "<!doctype html>" + 
+	"<html>" + 
+	"<head>" + 
+	"<meta charset=utf-8>" + 
+	"</head>" +
+	"<body>" +
+	"<form action='/upload' method='post'>" +
+	"<textarea name='text' rows='20' cols='60'></textarea>" +
+	"<br><input type='submit' value='Send'>" +
+	"</form>" + 
+	"</body>" +
+	"</html>";
 
-	exec("dir /w", function( error, stdout, stderr) {
-		content = stdout;
-		res.writeHead(200, {"Content-Type" : "text/plain"});
-		res.write(content);
-		res.end();//응답 종료
-	});
-
+	res.writeHead(200, {"Content-Type" : "text/html"});
+	res.write(body);
+	res.end();
 	
 }
 
-function upload(res) {
+function upload(res, postData) {
 	console.log("Request handler 'upload' was called");
 	res.writeHead(200, {"Content-Type" : "text/plain"});
-		res.write("Hello, world");
-		res.end();//응답 종료
+	res.write("Received Message : " + querystring.parse(postData).text);
+	res.end();//응답 종료
 }
 
 exports.start = start;
